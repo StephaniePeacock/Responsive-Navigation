@@ -9,6 +9,7 @@
             table{width:100%;border-collapse:collapse}
             th,td{border:1px solid #999;padding:.55rem;text-align:left;vertical-align:top}
             th{background:#8c1d40;color:#fff}
+            code{font-weight: bold; color: #8c1d40;}
             </style>
     </head>
     <body>
@@ -83,35 +84,43 @@
             </tr>
             <tr>
                 <td>Pointer/touch targets</td>
-                <td>[Expected]</td>
-                <td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>All links display pointer cursor when hovered. When using a touch screen there is ample space around links to prevent accidental mis-clicks.</td>
+                <td>When viewing on desktop all links had pointer icon. When viewing on mobile (Samsung Galaxy S21 Ultra) no mis-clicks occurred - links had enough space that only the intended target was activated.</td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
             <tr>
                 <td>320px and breakpoint region</td>
-                <td>[Expected]</td><td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>No clipped text,horizontal scrolling overlapping elements, missing links or cut-off focus outlines. Breakpoint does not jump into broken or crowded arrangements.</td>
+                <td>Behaves as expected - no horizonatal scrolling, all elements are visible without clipping or overlapping. Breakpoint transition is not broken or crowded.</td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
             <tr>
                 <td>200% zoom</td>
-                <td>[Expected]</td>
-                <td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>Every link remains available, Text remains readable, The header reflows, Nothing important overlaps, Focus remains visible.</td>
+                <td>At 200% the view is in narrow view, with menu button shown (this change activates at 175%). Header displays asd expected for narrow view. Nothing is overlapping. When focusing a link then zooming into 200% the menu automatically opens, and current focused link remains focused.</td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
             <tr>
                 <td>JavaScript unavailable</td>
-                <td>[Expected]</td>
-                <td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>The menu button is not needed, Every navigation link remains visible and usable.</td>
+                <td>Nav links flow from row to column on breakpoint transition, without the need for the menu button. All links are visible and useable.</td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
             <tr>
                 <td>CSS unavailable / wide recovery</td>
-                <td>[Expected]</td>
-                <td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>The HTML remains understandable, The links remain usable, The page order still makes sense</td>
+                <td>Order of content is logical, with skip link presented first, then brand link. With Javascript enabled and CSS disabled, Menu button is visible but does not function. With both disabled menu button is the menu button is not displayed. Nav links all displayed, with the remainder of the page content below the nav links. </td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
         </table>
-        <p><strong>Screenshot filenames and what each proves:</strong> [Response]</p>
+        <p><strong>Screenshot filenames and what each proves:</strong> <br>
+            <a href="nojs-320p-breakpoint.png" target="_blank">nojs-320p-breakpoint.png</a> 
+            Proves that the navigation functions properly in both narrow and wide views without 
+            javascript. Also demonstrates both the focus indicator and the skip link. <br>
+            <a href="narrow-menu-wide-hover-no-css.png" target="_blank">narrow-menu-wide-hover-no-css.png</a> 
+            Proves that the menu button displays properly with javascript enabled. Also demonstrates 
+            hover indicator and shows the logical page order when css is disabled.
+        </p>
         <h2>4. Peer task test</h2>
         <p><strong>Tester relationship (no name needed):</strong> [Response]</p>
         <p><strong>Two tasks attempted:</strong> [Response]</p>
@@ -119,11 +128,40 @@
         <p><strong>Change made or justified:</strong> [Response]</p>
         <h2>5. JavaScript code defense</h2>
         <p>Explain initialization, state synchronization, activation, and Escape/focus behavior in your own words. Refer to the exact variable, attribute, dataset value, function, and event used.</p>
-        <p>[Response]</p>
+        <p>The javascript file begins by setting two variables that will be used 
+            throughout - <code>button</code> has the value for the class <code>menu-button</code>, 
+            and <code>list</code> has the value of the id <code>primary-nav</code>. 
+            After assigning variables we use <code>document.documentElement.classList.add("js");</code> 
+            to add the class <code>js</code> to the html selector, which provides an indicator in dev tools 
+            that javascript is enabled and is use to activate the javascript specific selectors.
+            <code>button.hidden = false;</code> removes <code>hidden</code> from the menu button when javascript 
+            loads - otherwise it is hidden by default. Next we have <code>list.dataset.open = "false";</code>,
+            which adds the data-open property to the the menu and sets it to false initially.
+            To set the menu attributes at the same time, and toggle the open and closing, we have 
+            <code>function setMenu(open)</code>. This function contains two lines: 
+            <code>button.setAttribute("aria-expanded", String(open));</code> which sets the 
+            button aria-expanded attribute to whatever value open has (true or false) and 
+            <code>list.dataset.open = String(open);</code> which sets the data-open value to 
+            whatever value open has (true or false). This data-open value is checked for by the CSS, 
+            and used to toggle between <code>display:none</code> (which hides the item) and other display 
+            modes (which un-hide the item). By toggling them together we can always be 
+            sure they are always in sync, which ensures the accessibility tree matches the visual 
+            page. Next we will add an event listener <code>button.addEventListener("click", () => {</code>, 
+            which will activate when the user clicks on the menu button. This uses an 
+            anonymous function that calls the set menu function we 
+            just described <code>setMenu(button.getAttribute("aria-expanded") !== "true");</code>, 
+            checks what the current aria-expanded value is and sends the opposite (as this is a 
+            boolean property if it is true it passes false, and vice versa). 
+            Lastly we need an event listener to check if the user presses the escape key when 
+            the menu is open <code>document.addEventListener("keydown", (event) => {</code>. If both 
+            are true <code>if (event.key === "Escape" && button.getAttribute("aria-expanded") === "true") {</code>, 
+            then the setMenu function passes the value false (<code>setMenu(false);</code>), 
+            which closes the menu and then the focus is reapplied to the menu button (<code>setMenu(false);</code>).
+        </p>
         <h2>6. AI disclosure</h2>
-        <p><strong>Tool and purpose, or none:</strong> [Response]</p>
-        <p><strong>Prompt/task:</strong> [Response]</p>
-        <p><strong>Accepted, changed, or rejected output:</strong> [Response]</p>
-        <p><strong>How I verified it:</strong> [Tests and sources]</p>
+        <p><strong>Tool and purpose, or none:</strong> No AI was utilized</p>
+        <p><strong>Prompt/task:</strong> N/A</p>
+        <p><strong>Accepted, changed, or rejected output:</strong> N/A</p>
+        <p><strong>How I verified it:</strong> N/A</p>
     </body>
 </html>
