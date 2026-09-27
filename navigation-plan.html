@@ -13,12 +13,12 @@
     </head>
     <body>
         <h1>Navigation Plan and Evidence</h1>
-        <p><strong>Student:</strong> [Name] &nbsp; <strong>Site:</strong> [Site name and purpose]</p>
+        <p><strong>Student:</strong> Stephanie Peacock &nbsp; <strong>Site:</strong> Princess Donut's Royal Companions - A fictional animal shelter that cares for unwanted pets and finds them homes.</p>
         <h2>1. Priority tasks and content inventory</h2>
         <ol>
-            <li>[Task]</li>
-            <li>[Task]</li>
-            <li>[Optional task]</li>
+            <li>Look at available pets.</li>
+            <li>Find out how to go meet that pet in person.</li>
+            <li>Reach out to ask a question about the pet they are interested in.</li>
         </ol>
         <table>
             <tr>
@@ -27,16 +27,36 @@
                 <th>Order/group rationale</th>
             </tr>
             <tr>
-                <td>[Destination]</td>
-                <td>[Label]</td>
-                <td>[Rationale]</td>
+                <td>index.html</td>
+                <td>Home</td>
+                <td>Brings the user back to the home page from other pages on the site.</td>
+            </tr>
+            <tr>
+                <td>pets.html</td>
+                <td>Find A Pet</td>
+                <td>This would take the user to a page where they can browse available pets ready for adoption.</td>
+            </tr>
+            <tr>
+                <td>visit.html</td>
+                <td>Visit</td>
+                <td>Takes the user to a page where they can find the information required to plan a visit, such as operating hours, location and directions.</td>
+            </tr>
+            <tr>
+                <td>support.html</td>
+                <td>Support Us</td>
+                <td>Takes the user to a page where they can find information on how to help support the shelter's mission on finding every pet a home.</td>
+            </tr>
+            <tr>
+                <td>contact.html</td>
+                <td>Contact Us</td>
+                <td>Inevitably a user will want to reach out with a question that isn't answered on the website. THis takes the user to a page where they can see the contact information and a form to submit written messages to the site admins.</td>
             </tr>
         </table>
         <h2>2. Breakpoint evidence</h2>
-        <p><strong>Method and widths tested:</strong> [Response]</p>
-        <p><strong>First content failure:</strong> [What happened and at what width?]</p>
-        <p><strong>Chosen breakpoint in relative units:</strong> [Response]</p>
-        <p><strong>Long-label and zoom retest:</strong> [Observed result and repair]</p>
+        <p><strong>Method and widths tested:</strong> Lowered Media query threshold to 100px. Resized until failure was seen, then incremented by 1 pixel until failure resolved. Tested widths: 260-3578px</p>
+        <p><strong>First content failure:</strong> 839px - Brand Link and Nav links collide and both wrapped to a second line.</p>
+        <p><strong>Chosen breakpoint in relative units:</strong> 52.5rem (which is exactly 840px - the exact minimum stable width).</p>
+        <p><strong>Long-label and zoom retest:</strong> Doubled length of three Nav links. New failure was observed at 1086px. Modified media query to trigger at 68rem.</p>
         <h2>3. Interaction and failure test record</h2>
         <table>
             <tr>
@@ -47,9 +67,19 @@
             </tr>
             <tr>
                 <td>Keyboard: button, Tab, Escape, focus</td>
-                <td>[Expected]</td>
-                <td>[Observed]</td>
-                <td>[Pass/fail and repair]</td>
+                <td>Tab moves to the skip link, 
+                    The skip link becomes visible when focused, 
+                    Activating the skip link moves to the main content, 
+                    Tab can reach the menu button,
+                    Enter and Space both open and close the menu, 
+                    Tab moves through every visible navigation link, 
+                    Focus is always clearly visible, 
+                    Escape closes an open menu, 
+                    Focus returns to the menu button after Escape, 
+                    No hidden menu links receive focus
+                </td>
+                <td>Keyboard Tab Order: skip link > brand link > (narrow view) menu button > if menu is opened to the nav menu links -or- (wide view) nav menu links in order. In narrow view enter and space both open and close menu. ESC closes menu and returns focus to the menu button. Focus remains clearly visible at all times. Hidden links can't be focused.</td>
+                <td>Pass - No Repair Necessary</td>
             </tr>
             <tr>
                 <td>Pointer/touch targets</td>
